@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>ListUSER</title>
+</head>
+<body>
+<h3>USERS</h3>
+<p>
+    <a th:href="@{/users/create}">
+        ADD NEW USER
+    </a>
+</p>
+
+<div class="notify">
+    <div th:if="${success}">
+        <span th:text="${success}"></span>
+    </div>
+</div>
+
+<table id="Users">
+    <thead>
+    <tr>
+        <th>firstname</th>
+        <th>lastname</th>
+        <th>phoneNumber</th>
+        <th>email</th>
+        <th>age</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>View</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${users}">
+        <td th:text="${row.firstName}"></td>
+        <td th:text="${row.lastName}"></td>
+        <td th:text="${row.phoneNumber}"></td>
+        <td th:text="${row.email}"></td>
+        <td th:text="${row.age}"></td>
+        <td><a th:href="@{/users/{id}/edit(id=${row.getId()})}">edit</a></td>
+        <td><a th:href="@{/users/{id}/remove(id=${row.getId()})}">delete</a></td>
+        <td><a th:href="@{/users/{id}/view(id=${row.getId()})}">view</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
