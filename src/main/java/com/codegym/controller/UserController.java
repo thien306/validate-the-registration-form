@@ -35,21 +35,27 @@ public class UserController {
         return "/create";
     }
 
+
     @PostMapping("/save")
     public String save(@ModelAttribute("users") @Validated UserDto userDto,
                        BindingResult bindingResult,
-                       RedirectAttributes attributes) {
+                       RedirectAttributes attributes,
+                       Model model) {
         if (bindingResult.hasErrors()) {
             return "/create";
         } else {
             User user = new User();
             BeanUtils.copyProperties(userDto, user);
-            userService.save(user);
-            attributes.addFlashAttribute("success", "Add new users successfully!");
-            return "redirect:/users";
+            try {
+                userService.save(user);
+                attributes.addFlashAttribute("success", "Add new users successfully!");
+                return "redirect:/users";
+            } catch (RuntimeException e) {
+                model.addAttribute("errorMessage", e.getMessage());
+                return "/create";
+            }
         }
     }
-
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("users", userService.findById(id));

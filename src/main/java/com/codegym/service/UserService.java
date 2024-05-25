@@ -3,6 +3,7 @@ package com.codegym.service;
 import com.codegym.model.User;
 import com.codegym.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -14,9 +15,16 @@ public class UserService implements IUserService{
     private IUserRepository userRepository;
 
 
-    @Override
+
     public void save(User user) {
+        if (emailExists(user.getEmail())) {
+            throw new RuntimeException("Email already exists, please enter another email");
+        }
         userRepository.save(user);
+    }
+
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 
     @Override
@@ -28,6 +36,7 @@ public class UserService implements IUserService{
     public User findById(Long id) {
         return userRepository.findById(id);
     }
+
 
 
     @Override

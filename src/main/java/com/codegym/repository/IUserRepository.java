@@ -14,4 +14,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     Page<User> findByLastNameContains(String name, Pageable pageable);
 
+    User findByEmail(String email);
+
+
 }

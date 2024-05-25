@@ -14,6 +14,7 @@ public interface IUserService  {
 
     User findById(Long id);
 
+
     Page<User> findByName(String name, Pageable pageable);
 
 
